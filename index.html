@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Happy Beginning · September 4, 2026</title>
+    <title>Cat &amp; Duck · since September 4, 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -227,6 +227,52 @@
         font-family: "Playfair Display", serif;
       }
 
+      .since {
+        margin: 0 auto 8px;
+        max-width: 520px;
+      }
+
+      .since-lead {
+        font-size: clamp(1.15rem, 2.6vw, 1.45rem);
+        font-style: italic;
+        color: var(--soft);
+        margin-bottom: 14px;
+      }
+
+      .since-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .since-unit {
+        padding: 14px 8px 12px;
+        background: rgba(255, 255, 255, 0.72);
+        border-radius: 12px;
+        box-shadow:
+          0 0 0 1px rgba(232, 154, 176, 0.28),
+          0 10px 28px rgba(196, 92, 122, 0.1);
+      }
+
+      .since-value {
+        display: block;
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.55rem, 4.5vw, 2.1rem);
+        font-weight: 600;
+        color: var(--deep-rose);
+        line-height: 1.1;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .since-name {
+        display: block;
+        margin-top: 6px;
+        font-size: 0.72rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+
       @media (max-width: 640px) {
         .page {
           padding: 36px 16px 64px;
@@ -235,6 +281,10 @@
         .photo-frame {
           transform: rotate(0);
           padding-bottom: 48px;
+        }
+
+        .since-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
       }
     </style>
@@ -248,12 +298,39 @@
         <p class="date">September 4, 2026</p>
         <p class="time">4:44 AM</p>
       </div>
-      <h1>Happy beginning of our relationship</h1>
-      <p class="subtitle">for a peaceful and calm life</p>
+      <h1>Cat &amp; Duck</h1>
 
       <div class="divider" aria-hidden="true">
         <span></span>
         ✿
+        <span></span>
+      </div>
+
+      <section class="since" aria-live="polite" aria-label="Time together since September 4, 2026 at 4:44 AM">
+        <p class="since-lead">we've been together for:</p>
+        <div class="since-grid" aria-label="Days, hours, minutes, and seconds">
+          <div class="since-unit">
+            <span class="since-value" id="since-days">0</span>
+            <span class="since-name">days</span>
+          </div>
+          <div class="since-unit">
+            <span class="since-value" id="since-hours">0</span>
+            <span class="since-name">hours</span>
+          </div>
+          <div class="since-unit">
+            <span class="since-value" id="since-minutes">0</span>
+            <span class="since-name">minutes</span>
+          </div>
+          <div class="since-unit">
+            <span class="since-value" id="since-seconds">0</span>
+            <span class="since-name">seconds</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider" aria-hidden="true">
+        <span></span>
+        ♡
         <span></span>
       </div>
 
@@ -292,6 +369,34 @@
         sparkle.style.animationDelay = Math.random() * 3 + "s";
         sparkles.appendChild(sparkle);
       }
+
+      // Sept 4, 2026 · 4:44 — interpreted in the viewer's local timezone
+      const relationshipStart = new Date(2026, 8, 4, 4, 44, 0);
+      const sinceDays = document.getElementById("since-days");
+      const sinceHours = document.getElementById("since-hours");
+      const sinceMinutes = document.getElementById("since-minutes");
+      const sinceSeconds = document.getElementById("since-seconds");
+
+      function pad2(n) {
+        return String(n).padStart(2, "0");
+      }
+
+      function updateSinceCounter() {
+        const elapsedMs = Math.max(0, Date.now() - relationshipStart.getTime());
+        const totalSeconds = Math.floor(elapsedMs / 1000);
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        sinceDays.textContent = String(days);
+        sinceHours.textContent = pad2(hours);
+        sinceMinutes.textContent = pad2(minutes);
+        sinceSeconds.textContent = pad2(seconds);
+      }
+
+      updateSinceCounter();
+      setInterval(updateSinceCounter, 1000);
     </script>
   </body>
 </html>
